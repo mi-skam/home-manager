@@ -1,41 +1,41 @@
-{pkgs, ...}: {
-  home.stateVersion = "23.05";
-
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
-
-  home.shellAliases = {
-    "pn" = "pnpm";
-    "b" = "bun";
-    "bx" = "bunx";
-    "g" = "git";
-    "..." = "cd ../..";
+{ pkgs, ... }:
+let shellFunctions = builtins.readFile ./shell-functions.sh;
+in {
+  home = {
+    stateVersion = "23.05";
+    sessionPath = [ "$HOME/.local/bin" ];
+    shellAliases = {
+      "pn" = "pnpm";
+      "b" = "bun";
+      "bx" = "bunx";
+      "g" = "git";
+      "..." = "cd ../..";
+    };
+    packages = with pkgs; [
+      bashInteractive
+      ffmpeg
+      htop
+      mediainfo
+      curl
+      wget
+      nodejs_18
+      tree
+      ripgrep
+      fd
+      python3
+      gh
+      cmus
+      mtr
+      nixfmt
+    ];
   };
-
-  home.packages = with pkgs; [
-    bashInteractive
-    ffmpeg
-    htop
-    mediainfo
-    curl
-    wget
-    nodejs_18
-    tree
-    ripgrep
-    fd
-    python3
-    gh
-    cmus
-    mtr
-  ];
 
   programs = {
     bash = {
       enable = true;
       enableCompletion = true;
+      initExtra = shellFunctions;
     };
-
     git = {
       enable = true;
       includes = [{ path = "~/.config/home-manager/gitconfig"; }];
@@ -48,14 +48,11 @@
         init.defaultBranch = "main";
       };
     };
-
+    home-manager.enable = true;
     direnv = {
       enable = true;
       nix-direnv.enable = true;
     };
-
-    home-manager.enable = true;
-
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -68,17 +65,14 @@
       ];
       extraConfig = ''
         let mapleader = ","
-        
+
         " Find files using Telescope command-line sugar.
         nnoremap <leader>ff <cmd>Telescope find_files<cr>
         nnoremap <leader>fg <cmd>Telescope live_grep<cr>
         nnoremap <leader>fb <cmd>Telescope buffers<cr>
         nnoremap <leader>fh <cmd>Telescope help_tags<cr>
       '';
-      extraPackages = with pkgs; [
-        ripgrep
-        fd
-      ];
+      extraPackages = with pkgs; [ ripgrep fd ];
     };
 
     starship = {
@@ -86,14 +80,8 @@
       enableBashIntegration = true;
     };
 
-    yt-dlp = {
-      enable = true;
-    };
+    yt-dlp = { enable = true; };
   };
 
-  services = {
-    syncthing = {
-      enable = true;
-    };
-  };
+  services = { syncthing = { enable = true; }; };
 }
