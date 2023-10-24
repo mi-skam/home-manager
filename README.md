@@ -1,3 +1,5 @@
+We use a central command - `hm` - to manage all maintenance tasks.
+
 ## Installation
 
 Requirements:
@@ -7,15 +9,6 @@ Requirements:
 clone this repository to $HOME/.config/home-manager and call `home-manager switch -b backup --flake ~/.config/home-manager#"plumps@$option"` whereas
 option is either `linux` or `macos`.
 
-## Usage
-
-We use a central command - `hm` - to manage all maintenance tasks.
-
-```shell
-# look for all options
-hm
-```
-
 ### edit
 opens the `home-manager` config folder in `$EDITOR`.
 
@@ -24,3 +17,6 @@ rebuilds the configuration and activates it.
 
 ### update
 updates the source code and the nix flakes inputs (like nixpkgs)
+
+## Usage
+hm [switch|edit|update]

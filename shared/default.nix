@@ -1,5 +1,5 @@
-{ config, pkgs, ... }:
-let shellFunctions = builtins.readFile ./shell-functions.sh;
+{ config, lib, pkgs, ... }:
+let hm = builtins.readFile ./hm.sh;
 in {
   home = {
     stateVersion = "23.05";
@@ -36,7 +36,7 @@ in {
     bash = {
       enable = true;
       enableCompletion = true;
-      initExtra = shellFunctions;
+      initExtra = lib.strings.concatLines [ hm ];
     };
     git = {
       enable = true;

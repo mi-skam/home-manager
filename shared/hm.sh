@@ -1,11 +1,13 @@
+dir="$HOME/.config/home-manager"
+
 _get_os() {
   os=$(uname -o)
   case "$os" in
   "GNU/Linux")
-    option="linux"
+    echo "linux"
     ;;
   "Darwin")
-    option="macos"
+    echo "macos"
     ;;
   *)
     echo "Unknown OS: $os"
@@ -15,45 +17,51 @@ _get_os() {
 }
 
 _handle_update() {
-  dir="$HOME/.config/home-manager"
-  echo "Updating in directory: $dir"
-
-  # Change to the specified directory
-  pushd "$dir" || {
+  pushd "$dir" &>/dev/null || {
     echo "Failed to change to directory: $dir"
     return 1
   }
-
-  # Perform git pull
   git pull || {
     echo "Failed to execute git pull"
     return 1
   }
-
-  # Perform nix flake
   nix flake update || {
     echo "Failed to execute nix flake"
     return 1
   }
+  _handle_switch
+  popd &>/dev/null
+}
 
+_handle_edit() {
+  pushd "$dir" || {
+    echo "Failed to change to directory: $dir"
+    return 1
+  }
+  eval $EDITOR $HOME/.config/home-manager
   popd
+}
+
+_handle_switch() {
+  option=$(_get_os)
+  home-manager switch -b backup --flake ~/.config/home-manager#"plumps@$option" || {
+    echo "Failed to execute nixos-rebuild switch"
+    return 1
+  }
 }
 
 hm() {
   if [ "$#" -ne 1 ]; then
-    echo "Usage: hm [switch|edit|update]"
-    return 1
+    cat "$dir/README.md"
+    return 0
   fi
-
-  _get_os
 
   case "$1" in
   "switch")
-
-    home-manager switch -b backup --flake ~/.config/home-manager#"plumps@$option"
+    _handle_switch
     ;;
   "edit")
-    eval $EDITOR $HOME/.config/home-manager
+    _handle_edit
     ;;
   "update")
     _handle_update
