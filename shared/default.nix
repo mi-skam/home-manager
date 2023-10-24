@@ -1,5 +1,6 @@
 { pkgs, ... }:
-let shellFunctions = builtins.readFile ./shell-functions.sh;
+let 
+  shellFunctions = builtins.readFile ./shell-functions.sh;
 in {
   home = {
     stateVersion = "23.05";
@@ -10,6 +11,9 @@ in {
       "bx" = "bunx";
       "g" = "git";
       "..." = "cd ../..";
+    };
+    file = {
+      ".npmrc".source = ./.npmrc;
     };
     packages = with pkgs; [
       bashInteractive
