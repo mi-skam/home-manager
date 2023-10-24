@@ -1,10 +1,13 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let 
   shellFunctions = builtins.readFile ./shell-functions.sh;
 in {
   home = {
     stateVersion = "23.05";
     sessionPath = [ "$HOME/.local/bin" ];
+    sessionVariables = {
+      PATH = "$HOME/.npm-global/bin:$PATH";
+    };
     shellAliases = {
       "pn" = "pnpm";
       "b" = "bun";
