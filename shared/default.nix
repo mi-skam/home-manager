@@ -1,13 +1,10 @@
 { config, pkgs, ... }:
-let 
-  shellFunctions = builtins.readFile ./shell-functions.sh;
+let shellFunctions = builtins.readFile ./shell-functions.sh;
 in {
   home = {
     stateVersion = "23.05";
     sessionPath = [ "$HOME/.local/bin" ];
-    sessionVariables = {
-      PATH = "$HOME/.npm-global/bin:$PATH";
-    };
+    sessionVariables = { PATH = "$HOME/.npm-global/bin:$PATH"; };
     shellAliases = {
       "pn" = "pnpm";
       "b" = "bun";
@@ -15,9 +12,7 @@ in {
       "g" = "git";
       "..." = "cd ../..";
     };
-    file = {
-      ".npmrc".source = ./.npmrc;
-    };
+    file = { ".npmrc".source = ./.npmrc; };
     packages = with pkgs; [
       bashInteractive
       ffmpeg
@@ -45,7 +40,7 @@ in {
     };
     git = {
       enable = true;
-      includes = [{ path = "~/.config/home-manager/gitconfig"; }];
+      includes = [{ path = "~/.config/home-manager/shared/gitconfig"; }];
       lfs.enable = true;
       userName = "mi-skam";
       userEmail = "codes@miskam.xyz";

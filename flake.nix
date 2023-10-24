@@ -10,23 +10,21 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... } @ inputs:
+  outputs = { nixpkgs, home-manager, ... }@inputs:
     let
-      mkHomeConfig = machineModule: system: home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
+      mkHomeConfig = machineModule: system:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
 
-        modules = [
-          ./shared
-          machineModule
-        ];
+          modules = [ ./shared machineModule ];
 
-        extraSpecialArgs = {
-          inherit inputs system;
+          extraSpecialArgs = { inherit inputs system; };
         };
-      };
     in {
-      homeConfigurations."plumps@linux" = mkHomeConfig ./linux/plumps.nix "x86_64-linux";
-      homeConfigurations."plumps@macos" = mkHomeConfig ./macos/plumps.nix "aarch64-darwin";
+      homeConfigurations."plumps@linux" =
+        mkHomeConfig ./linux/plumps.nix "x86_64-linux";
+      homeConfigurations."plumps@macos" =
+        mkHomeConfig ./macos/plumps.nix "aarch64-darwin";
     };
 }
 

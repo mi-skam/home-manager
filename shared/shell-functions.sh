@@ -2,10 +2,10 @@ _get_os() {
   os=$(uname -o)
   case "$os" in
   "GNU/Linux")
-    option="linux";
+    option="linux"
     ;;
   "Darwin")
-    option="macos";
+    option="macos"
     ;;
   *)
     echo "Unknown OS: $os"
@@ -15,19 +15,28 @@ _get_os() {
 }
 
 _handle_update() {
-    dir="$HOME/.config/home-manager"
-    echo "Updating in directory: $dir"
-    
-    # Change to the specified directory
-    pushd "$dir" || { echo "Failed to change to directory: $dir"; return 1; }
+  dir="$HOME/.config/home-manager"
+  echo "Updating in directory: $dir"
 
-    # Perform git pull
-    git pull || { echo "Failed to execute git pull"; return 1; }
+  # Change to the specified directory
+  pushd "$dir" || {
+    echo "Failed to change to directory: $dir"
+    return 1
+  }
 
-    # Perform nix flake
-    nix flake update || { echo "Failed to execute nix flake"; return 1; }
-    
-    popd
+  # Perform git pull
+  git pull || {
+    echo "Failed to execute git pull"
+    return 1
+  }
+
+  # Perform nix flake
+  nix flake update || {
+    echo "Failed to execute nix flake"
+    return 1
+  }
+
+  popd
 }
 
 hm() {
