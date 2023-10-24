@@ -24,7 +24,7 @@ hm() {
     home-manager switch -b backup --flake ~/.config/home-manager#"plumps@$option"
     ;;
   "edit")
-    echo "TODO: edit mode"
+    eval $EDITOR $HOME/.config/home-manager
     ;;
   *)
     echo "Usage: hm [switch|edit]"
