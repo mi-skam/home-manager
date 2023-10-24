@@ -29,7 +29,6 @@ _handle_update() {
     echo "Failed to execute nix flake"
     return 1
   }
-  _handle_switch
   popd &>/dev/null
 }
 
@@ -66,8 +65,12 @@ hm() {
   "update")
     _handle_update
     ;;
+  "rebuild")
+    _handle_update
+    _handle_switch
+    ;;
   *)
-    echo "Usage: hm [switch|edit|update]"
+    echo "Usage: hm [edit|rebuild|switch|update]"
     return 1
     ;;
   esac

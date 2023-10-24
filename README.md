@@ -18,5 +18,8 @@ rebuilds the configuration and activates it.
 ### update
 updates the source code and the nix flakes inputs (like nixpkgs)
 
+## rebuild
+update and switch in one command
+
 ## Usage
-hm [switch|edit|update]
+hm [edit|rebuild|switch|update]
