@@ -1,4 +1,4 @@
-prefix=$HOME/.npm-global
+prefix=~/.npm-global
 
 registry=https://registry.npmjs.org/
 //registry.npmjs.org/:_authToken=$TOKEN
