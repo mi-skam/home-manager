@@ -1,6 +1,4 @@
 {pkgs, ...}: {
-  home.username = "plumps";
-  home.homeDirectory = "/Users/plumps";
   home.stateVersion = "23.05";
 
   home.sessionPath = [
@@ -33,8 +31,6 @@
   ];
 
   programs = {
-    adb.enable = true;
-
     bash = {
       enable = true;
       enableCompletion = true;
