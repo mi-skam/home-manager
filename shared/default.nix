@@ -12,7 +12,7 @@ in {
       "g" = "git";
       "..." = "cd ../..";
     };
-    file = { ".npmrc".source = ./.npmrc; };
+    file = { ".npmrc".source = ./npmrc; };
     packages = with pkgs; [
       bashInteractive
       ffmpeg

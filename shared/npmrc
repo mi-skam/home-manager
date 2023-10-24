@@ -1,4 +1,4 @@
-prefix=/home/plumps/.npm-global
+prefix=$HOME/.npm-global
 
 registry=https://registry.npmjs.org/
 //registry.npmjs.org/:_authToken=$TOKEN
