@@ -21,7 +21,7 @@ hm() {
   case "$1" in
   "switch")
 
-    home-manager switch --flake ~/.config/home-manager#"plumps@$option"
+    home-manager switch -b backup --flake ~/.config/home-manager#"plumps@$option"
     ;;
   "edit")
     echo "TODO: edit mode"
