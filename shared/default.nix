@@ -3,8 +3,11 @@ let hm = builtins.readFile ./hm.sh;
 in {
   home = {
     stateVersion = "23.05";
-    sessionPath = [ "$HOME/.local/bin" ];
-    sessionVariables = { PATH = "$HOME/.npm-global/bin:$PATH"; };
+    sessionPath = [ 
+      "$HOME/.npm-global/bin"
+      "$HOME/.local/bin"
+      "/mnt/c/Users/plumps/bin"
+    ];
     shellAliases = {
       "pn" = "pnpm";
       "b" = "bun";
@@ -65,6 +68,8 @@ in {
         nvim-treesitter
       ];
       extraConfig = ''
+        set shell=$HOME/.nix-profile/bin/bash
+
         let mapleader = ","
 
         " Find files using Telescope command-line sugar.
@@ -72,6 +77,21 @@ in {
         nnoremap <leader>fg <cmd>Telescope live_grep<cr>
         nnoremap <leader>fb <cmd>Telescope buffers<cr>
         nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+        " Clipboard configuration with windows
+        set clipboard+=unnamedplus
+        let g:clipboard = {
+          \   'name': 'win32yank-wsl',
+          \   'copy': {
+          \      '+': 'win32yank.exe -i --crlf',
+          \      '*': 'win32yank.exe -i --crlf',
+          \    },
+          \   'paste': {
+          \      '+': 'win32yank.exe -o --lf',
+          \      '*': 'win32yank.exe -o --lf',
+          \   },
+          \   'cache_enabled': 1,
+          \ }
       '';
       extraPackages = with pkgs; [ ripgrep fd ];
     };

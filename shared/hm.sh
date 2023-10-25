@@ -16,7 +16,7 @@ _get_os() {
   esac
 }
 
-_handle_update() {
+_handle_fetch() {
   pushd "$dir" &>/dev/null || {
     echo "Failed to change to directory: $dir"
     return 1
@@ -41,7 +41,7 @@ _handle_edit() {
   popd
 }
 
-_handle_switch() {
+_handle_build() {
   option=$(_get_os)
   home-manager switch -b backup --flake ~/.config/home-manager#"plumps@$option" || {
     echo "Failed to execute nixos-rebuild switch"
@@ -56,21 +56,21 @@ hm() {
   fi
 
   case "$1" in
-  "switch")
-    _handle_switch
+  "build")
+    _handle_build
     ;;
   "edit")
     _handle_edit
     ;;
-  "update")
-    _handle_update
+  "fetch")
+    _handle_fetch
     ;;
-  "rebuild")
-    _handle_update
-    _handle_switch
+  "update")
+    _handle_fetch
+    _handle_build
     ;;
   *)
-    echo "Usage: hm [edit|rebuild|switch|update]"
+    echo "Usage: hm [fetch|edit|build|update]"
     return 1
     ;;
   esac

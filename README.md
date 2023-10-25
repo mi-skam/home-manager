@@ -18,14 +18,11 @@ home-manager switch -b backup --flake ~/.config/home-manager#"plumps@macos"
 ### edit
 opens the `home-manager` config folder in `$EDITOR`.
 
-### switch
+### build
 switches to a new configuration.
 
-### update
+### fetch
 updates the source code and the nix flakes inputs (like nixpkgs)
 
-## rebuild
-`update` and `switch` in one command
-
-## Usage
-hm [edit|rebuild|switch|update]
+## update
+`fetch` and `build` in one command
