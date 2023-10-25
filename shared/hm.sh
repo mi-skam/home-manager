@@ -52,7 +52,7 @@ _handle_switch() {
 hm() {
   if [ "$#" -ne 1 ]; then
     cat "$dir/README.md"
-    return 0
+    return 1
   fi
 
   case "$1" in

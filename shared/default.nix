@@ -17,7 +17,6 @@ in {
       bashInteractive
       ffmpeg
       htop
-      mediainfo
       curl
       wget
       nodejs_18
