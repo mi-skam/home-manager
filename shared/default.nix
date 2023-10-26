@@ -12,9 +12,10 @@ in {
       "g" = "git";
       "..." = "cd ../..";
     };
-    # file = { ".npmrc".source = ./npmrc; };
+    file = { ".npmrc".source = ./npmrc; };
     packages = with pkgs; [
       bashInteractive
+      universal-ctags
       ffmpeg
       htop
       curl
@@ -23,7 +24,6 @@ in {
       tree
       ripgrep
       fd
-      gh
       cmus
       mtr
       nixfmt
@@ -35,6 +35,16 @@ in {
       enable = true;
       enableCompletion = true;
       initExtra = lib.strings.concatLines [ hm ];
+    };
+    gh = {
+      enable = true;
+      settings = {
+        git_protocol = "https";
+        aliases = {
+          co = "pr checkout";
+          pv = "pr view";
+        };
+      };
     };
     git = {
       enable = true;
