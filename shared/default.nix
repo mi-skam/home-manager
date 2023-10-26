@@ -3,11 +3,8 @@ let hm = builtins.readFile ./hm.sh;
 in {
   home = {
     stateVersion = "23.05";
-    sessionPath = [ 
-      "$HOME/.npm-global/bin"
-      "$HOME/.local/bin"
-      "/mnt/c/Users/plumps/bin"
-    ];
+    sessionPath =
+      [ "$HOME/.npm-global/bin" "$HOME/.local/bin" "/mnt/c/Users/plumps/bin" ];
     shellAliases = {
       "pn" = "pnpm";
       "b" = "bun";
@@ -15,7 +12,7 @@ in {
       "g" = "git";
       "..." = "cd ../..";
     };
-    file = { ".npmrc".source = ./npmrc; };
+    # file = { ".npmrc".source = ./npmrc; };
     packages = with pkgs; [
       bashInteractive
       ffmpeg
@@ -26,7 +23,6 @@ in {
       tree
       ripgrep
       fd
-      python3
       gh
       cmus
       mtr
