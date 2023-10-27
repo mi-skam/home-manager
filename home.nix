@@ -1,5 +1,10 @@
 { config, lib, pkgs, ... }:
-let hm = builtins.readFile ./hm.sh;
+let 
+  currentDir = ./.;
+  hm = builtins.readFile ./shared/hm.sh;
+  npmrc = ./shared/npmrc;
+  gitconfig = "${currentDir}/shared/gitconfig";
+
 in {
   home = {
     stateVersion = "23.05";
@@ -12,7 +17,7 @@ in {
       "g" = "git";
       "..." = "cd ../..";
     };
-    file = { ".npmrc".source = ./npmrc; };
+    file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
       bashInteractive
       universal-ctags
@@ -48,7 +53,7 @@ in {
     };
     git = {
       enable = true;
-      includes = [{ path = "~/.config/home-manager/shared/gitconfig"; }];
+      includes = [{ path = gitconfig; }];
       lfs.enable = true;
       userName = "mi-skam";
       userEmail = "codes@miskam.xyz";

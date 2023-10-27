@@ -16,7 +16,7 @@
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
 
-          modules = [ ./shared machineModule ];
+          modules = [ ./home.nix machineModule ];
 
           extraSpecialArgs = { inherit inputs system; };
         };
