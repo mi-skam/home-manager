@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-let 
+let
   currentDir = ./.;
   hm = builtins.readFile ./shared/hm.sh;
   npmrc = ./shared/npmrc;
@@ -41,6 +41,7 @@ in {
       enableCompletion = true;
       initExtra = lib.strings.concatLines [ hm ];
     };
+    fzf.enable = true;
     gh = {
       enable = true;
       settings = {
@@ -113,6 +114,7 @@ in {
     };
 
     yt-dlp = { enable = true; };
+    zoxide.enable = true;
   };
 
   services = { syncthing = { enable = true; }; };
