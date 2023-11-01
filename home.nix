@@ -17,6 +17,8 @@ in {
       "bx" = "bunx";
       "g" = "git";
       "..." = "cd ../..";
+      "ll" = "exa -lah";
+      "ls" = "exa";
     };
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
@@ -34,7 +36,7 @@ in {
       mtr
       nixfmt
       bat
-      util-linux
+      exa
     ];
   };
 
@@ -42,12 +44,14 @@ in {
     bash = {
       enable = true;
       enableCompletion = true;
-      initExtra = lib.strings.concatLines [ 
-        hm
-        bashHelper
-      ];
+      initExtra = lib.strings.concatLines [ hm bashHelper ];
     };
-    fzf.enable = true;
+
+    fzf = {
+      enable = true;
+      tmux.enableShellIntegration = true;
+    };
+
     gh = {
       enable = true;
       settings = {
@@ -58,8 +62,10 @@ in {
         };
       };
     };
+
     git = {
       enable = true;
+      diff-so-fancy.enable = true;
       includes = [{ path = gitconfig; }];
       lfs.enable = true;
       userName = "mi-skam";
@@ -71,10 +77,12 @@ in {
       };
     };
     home-manager.enable = true;
+
     direnv = {
       enable = true;
       nix-direnv.enable = true;
     };
+
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -118,8 +126,33 @@ in {
       enable = true;
       enableBashIntegration = true;
     };
+    tmux = {
+      enable = true;
+      clock24 = true;
+      disableConfirmationPrompt = true;
+      prefix = "C-b";
+      terminal = "screen-256color";
+      keyMode = "vi";
+      mouse = true;
+      newSession = true;
+      plugins = with pkgs; [
+        tmuxPlugins.cpu
+        {
+          plugin = tmuxPlugins.resurrect;
+          extraConfig = "set -g @ressurect-strategy-nvim 'session'";
+        }
+        {
+          plugin = tmuxPlugins.continuum;
+          extraConfig = ''
+            set -g @continuum-restore 'on'
+            set -g @continuum-save-interval '60' # minutes
+          '';
+        }
+      ];
+    };
 
     yt-dlp = { enable = true; };
+
     zoxide.enable = true;
   };
 
