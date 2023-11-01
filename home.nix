@@ -46,6 +46,11 @@ in {
       enableCompletion = true;
       initExtra = lib.strings.concatLines [ hm bashHelper ];
     };
+    
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
     fzf = {
       enable = true;
@@ -76,12 +81,10 @@ in {
         init.defaultBranch = "main";
       };
     };
+    
     home-manager.enable = true;
 
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
+    lazygit.enable = true;
 
     neovim = {
       enable = true;
