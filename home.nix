@@ -2,6 +2,7 @@
 let
   currentDir = ./.;
   hm = builtins.readFile ./shared/hm.sh;
+  bashHelper = builtins.readFile ./shared/helper.sh;
   npmrc = ./shared/npmrc;
   gitconfig = "${currentDir}/shared/gitconfig";
 
@@ -33,6 +34,7 @@ in {
       mtr
       nixfmt
       bat
+      util-linux
     ];
   };
 
@@ -40,7 +42,10 @@ in {
     bash = {
       enable = true;
       enableCompletion = true;
-      initExtra = lib.strings.concatLines [ hm ];
+      initExtra = lib.strings.concatLines [ 
+        hm
+        bashHelper
+      ];
     };
     fzf.enable = true;
     gh = {
