@@ -1,5 +1,10 @@
 dir="$HOME/.config/home-manager"
 
+# source settings if they exist
+if [ -f "$dir/.settings.sh" ]; then
+  . "$dir/.settings.sh"
+fi
+
 _get_os() {
   os=$(uname -o)
   case "$os" in
@@ -14,6 +19,10 @@ _get_os() {
     exit 1
     ;;
   esac
+}
+
+_is_wsl() {
+  grep -qE "(Microsoft|WSL)" /proc/version &>/dev/null
 }
 
 _handle_fetch() {

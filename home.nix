@@ -32,6 +32,7 @@ in {
       cmus
       mtr
       nixfmt
+      bat
     ];
   };
 
