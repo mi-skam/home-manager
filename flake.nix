@@ -23,6 +23,8 @@
     in {
       homeConfigurations."plumps@linux" =
         mkHomeConfig ./linux/plumps.nix "x86_64-linux";
+      homeConfigurations."plumps@linux-wsl" =
+        mkHomeConfig ./linux-wsl/plumps.nix "x86_64-linux";
       homeConfigurations."plumps@macos" =
         mkHomeConfig ./macos/plumps.nix "aarch64-darwin";
     };

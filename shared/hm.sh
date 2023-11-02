@@ -9,7 +9,7 @@ _get_os() {
   os=$(uname -o)
   case "$os" in
   "GNU/Linux")
-    echo "linux"
+    _is_wsl && echo "linux-wsl" || echo "linux"
     ;;
   "Darwin")
     echo "macos"
