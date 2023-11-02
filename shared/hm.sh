@@ -58,29 +58,27 @@ _handle_build() {
   }
 }
 
-hm() {
-  if [ "$#" -ne 1 ]; then
-    cat "$dir/README.md"
-    return 1
-  fi
+if [ "$#" -ne 1 ]; then
+  cat "$dir/README.md"
+  exit 1
+fi
 
-  case "$1" in
-  "build")
-    _handle_build
-    ;;
-  "edit")
-    _handle_edit
-    ;;
-  "fetch")
-    _handle_fetch
-    ;;
-  "update")
-    _handle_fetch
-    _handle_build
-    ;;
-  *)
-    echo "Usage: hm [fetch|edit|build|update]"
-    return 1
-    ;;
-  esac
-}
+case "$1" in
+"build")
+  _handle_build
+  ;;
+"edit")
+  _handle_edit
+  ;;
+"fetch")
+  _handle_fetch
+  ;;
+"update")
+  _handle_fetch
+  _handle_build
+  ;;
+*)
+  echo "Usage: hm [fetch|edit|build|update]"
+  exit 1
+  ;;
+esac

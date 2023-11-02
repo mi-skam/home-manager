@@ -1,8 +1,23 @@
 { config, lib, pkgs, ... }:
+
+with builtins;
+with lib;
+with pkgs;
+
 let
   currentDir = ./.;
-  hm = builtins.readFile ./shared/hm.sh;
-  bashHelper = builtins.readFile ./shared/helper.sh;
+  hm = stdenv.mkDerivation {
+    name = "hm";
+    src = currentDir;
+    phases = [ "installPhase" ];
+    installPhase = ''
+      mkdir -p $out/bin
+      cp ${./shared/hm.sh} $out/bin/hm
+      chmod +x $out/bin/hm 
+    '';
+
+  };
+  bashHelper = readFile ./shared/helper.sh;
   npmrc = ./shared/npmrc;
   gitconfig = "${currentDir}/shared/gitconfig";
 
@@ -19,6 +34,7 @@ in {
       "..." = "cd ../..";
       "ll" = "exa -lah";
       "ls" = "exa";
+      "cd" = "z";
     };
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
@@ -37,6 +53,7 @@ in {
       nixfmt
       bat
       exa
+      hm
     ];
   };
 
@@ -44,9 +61,9 @@ in {
     bash = {
       enable = true;
       enableCompletion = true;
-      initExtra = lib.strings.concatLines [ hm bashHelper ];
+      initExtra = lib.strings.concatLines [ bashHelper ];
     };
-    
+
     direnv = {
       enable = true;
       nix-direnv.enable = true;
@@ -81,7 +98,7 @@ in {
         init.defaultBranch = "main";
       };
     };
-    
+
     home-manager.enable = true;
 
     lazygit.enable = true;
@@ -90,22 +107,46 @@ in {
       enable = true;
       defaultEditor = true;
       vimAlias = true;
+      viAlias = true;
+      vimdiffAlias = true;
       plugins = with pkgs.vimPlugins; [
         vim-nix
+        {
+          plugin = telescope-nvim;
+          config = ''
+            let mapleader = ","
+
+            " Find files using Telescope command-line sugar.
+            nnoremap <leader>ff <cmd>Telescope find_files<cr>
+            nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+            nnoremap <leader>fb <cmd>Telescope buffers<cr>
+            nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+          '';
+        }
         telescope-nvim
         plenary-nvim
         nvim-treesitter
+        terminus
+        {
+          plugin = lazygit-nvim;
+          config = ''
+            let mapleader = ","
+
+            nnoremap <leader>lg <cmd>LazyGit<cr>
+          '';
+        }
       ];
       extraConfig = ''
+        let mapleader = ","
         set shell=$HOME/.nix-profile/bin/bash
 
-        let mapleader = ","
+        set number
+        set relativenumber
 
-        " Find files using Telescope command-line sugar.
-        nnoremap <leader>ff <cmd>Telescope find_files<cr>
-        nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-        nnoremap <leader>fb <cmd>Telescope buffers<cr>
-        nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+        " map shortcuts to hm
+        nnoremap <leader>hb :!hm<space>build<cr>
+        nnoremap <leader>hu :!hm<space>update<cr>
+        nnoremap <leader>hf :!hm<space>fetch<cr>
 
         " Clipboard configuration with windows
         set clipboard+=unnamedplus
