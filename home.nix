@@ -140,6 +140,10 @@ in {
         let mapleader = ","
         set shell=$HOME/.nix-profile/bin/bash
 
+        " reload vimconfig
+        nnoremap <leader>rr :source $MYVIMRC<CR>
+
+
         set number
         set relativenumber
 
