@@ -2,7 +2,7 @@
 
   config = {
     home.username = "plumps";
-    home.homeDirectory = "/Users/plumps";
+    home.homeDirectory = "/home/plumps";
 
     programs.neovim.extraConfig = ''
       " Use win32yank as clipboard provider

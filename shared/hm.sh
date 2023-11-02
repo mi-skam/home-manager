@@ -52,6 +52,7 @@ _handle_edit() {
 
 _handle_build() {
   option=$(_get_os)
+  echo "Building $option"
   home-manager switch -b backup --flake ~/.config/home-manager#"plumps@$option" || {
     echo "Failed to execute nixos-rebuild switch"
     return 1
