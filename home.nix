@@ -17,6 +17,18 @@ let
     '';
 
   };
+  
+  openPRs = stdenv.mkDerivation {
+    name = "open-prs";
+    src = currentDir;
+    phases = [ "installPhase" ];
+    installPhase = ''
+      mkdir -p $out/bin
+      cp ${./shared/open-prs.sh} $out/bin/open-prs
+      chmod +x $out/bin/open-prs
+    '';
+
+  };
   bashHelper = readFile ./shared/helper.sh;
   npmrc = ./shared/npmrc;
   gitconfig = "${currentDir}/shared/gitconfig";
@@ -53,7 +65,9 @@ in {
       nixfmt
       bat
       exa
+      # custom scripts
       hm
+      openPRs
     ];
   };
 
