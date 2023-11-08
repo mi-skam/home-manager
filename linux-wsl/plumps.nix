@@ -3,6 +3,9 @@
   config = {
     home.username = "plumps";
     home.homeDirectory = "/home/plumps";
+    home.file = {
+      ".config/lazygit/config.yml".source = ./lazygit.yml;
+    };
 
     programs.neovim.extraConfig = ''
       " Use win32yank as clipboard provider
@@ -20,5 +23,7 @@
         \   'cache_enabled': 1,
         \ }
     '';
+
+    
   };
 }

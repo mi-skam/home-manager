@@ -1,0 +1,2 @@
+os:
+  copyToClipboardCmd: 'echo {{text}} | w32yank -i'

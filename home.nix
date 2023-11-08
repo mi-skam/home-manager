@@ -44,9 +44,11 @@ in {
       "bx" = "bunx";
       "g" = "git";
       "..." = "cd ../..";
+      ".." = "cd ..";
       "ll" = "exa -lah";
       "ls" = "exa";
       "cd" = "z";
+      "rf" = "rm -rf";
     };
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
