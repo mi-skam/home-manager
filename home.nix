@@ -29,15 +29,14 @@ let
     '';
 
   };
-  bashHelper = readFile ./shared/helper.sh;
+  bashHelper = readFile ./shared/bash-helper.sh;
+  bashEnv = readFile ./shared/bash-environment.sh;
   npmrc = ./shared/npmrc;
   gitconfig = "${currentDir}/shared/gitconfig";
 
 in {
   home = {
     stateVersion = "23.05";
-    sessionPath =
-      [ "$HOME/.npm-global/bin" "$HOME/.local/bin" "/mnt/c/Users/plumps/bin" ];
     shellAliases = {
       "pn" = "pnpm";
       "b" = "bun";
@@ -45,8 +44,13 @@ in {
       "g" = "git";
       "..." = "cd ../..";
       ".." = "cd ..";
-      "ll" = "exa -lah";
-      "ls" = "exa";
+      "l" = "ls";
+      "ll" = "ls -lah";
+      "ls" = lib.getExe pkgs.lsd;
+      "t" = "tree";
+      "tree" = "${lib.getExe pkgs.lsd} --tree";
+      "lg" = "lazygit";
+      "e"  = "nvim";
       "cd" = "z";
       "rf" = "rm -rf";
     };
@@ -77,7 +81,7 @@ in {
     bash = {
       enable = true;
       enableCompletion = true;
-      initExtra = lib.strings.concatLines [ bashHelper ];
+      initExtra = lib.strings.concatLines [ bashEnv bashHelper ];
     };
 
     direnv = {
