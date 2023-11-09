@@ -33,6 +33,17 @@ let
   bashEnv = readFile ./shared/bash-environment.sh;
   npmrc = ./shared/npmrc;
   gitconfig = "${currentDir}/shared/gitconfig";
+  tmux-super-fingers = pkgs.tmuxPlugins.mkTmuxPlugin
+    {
+      pluginName = "tmux-super-fingers";
+      version = "unstable-2023-11-09";
+      src = pkgs.fetchFromGitHub {
+        owner = "artemave";
+        repo = "tmux_super_fingers";
+        rev = "2c12044984124e74e21a5a87d00f844083e4bdf7";
+        sha256 = "sha256-cPZCV8xk9QpU49/7H8iGhQYK6JwWjviL29eWabuqruc=";
+      };
+    };
 
 in {
   home = {
@@ -183,13 +194,14 @@ in {
       enable = true;
       clock24 = true;
       disableConfirmationPrompt = true;
-      prefix = "C-b";
+      prefix = "C-a";
       terminal = "screen-256color";
       keyMode = "vi";
       mouse = true;
       newSession = true;
       plugins = with pkgs; [
         tmuxPlugins.cpu
+        tmuxPlugins.better-mouse-mode
         {
           plugin = tmuxPlugins.resurrect;
           extraConfig = "set -g @ressurect-strategy-nvim 'session'";
@@ -201,7 +213,28 @@ in {
             set -g @continuum-save-interval '60' # minutes
           '';
         }
+        {
+          plugin = tmux-super-fingers;
+          extraConfig = "set -g @super-fingers-key f";
+        }
+
       ];
+      extraConfig = ''
+        bind-key h select-pane -L
+        bind-key j select-pane -D
+        bind-key k select-pane -U
+        bind-key l select-pane -R
+
+        bind-key -n M-Left select-pane -L
+        bind-key -n M-Down select-pane -D
+        bind-key -n M-Up select-pane -U
+        bind-key -n M-Right select-pane -R
+        
+        bind-key | split-window -h
+        bind-key - split-window -v
+
+        bind-key -n M-s set-window-option synchronize-panes
+      '';
     };
 
     yt-dlp = { enable = true; };
