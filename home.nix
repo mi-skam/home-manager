@@ -67,6 +67,7 @@ in {
     };
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
+      libwebp
       bashInteractive
       universal-ctags
       ffmpeg
