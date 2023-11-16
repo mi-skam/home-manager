@@ -6,29 +6,22 @@ with pkgs;
 
 let
   currentDir = ./.;
-  hm = stdenv.mkDerivation {
-    name = "hm";
+
+  writeCommand = name: stdenv.mkDerivation {
+    inherit name;
     src = currentDir;
     phases = [ "installPhase" ];
     installPhase = ''
       mkdir -p $out/bin
-      cp ${./shared/hm.sh} $out/bin/hm
-      chmod +x $out/bin/hm 
+      cp ${./shared/${name}.sh} $out/bin/${name}
+      chmod +x $out/bin/${name} 
     '';
-
   };
-  
-  openPRs = stdenv.mkDerivation {
-    name = "open-prs";
-    src = currentDir;
-    phases = [ "installPhase" ];
-    installPhase = ''
-      mkdir -p $out/bin
-      cp ${./shared/open-prs.sh} $out/bin/open-prs
-      chmod +x $out/bin/open-prs
-    '';
 
-  };
+  hm = writeCommand "hm"; 
+  openPRs = writeCommand "open-prs";
+  wr = writeCommand "wr";
+
   bashHelper = readFile ./shared/bash-helper.sh;
   bashEnv = readFile ./shared/bash-environment.sh;
   npmrc = ./shared/npmrc;
@@ -86,6 +79,7 @@ in {
       # custom scripts
       hm
       openPRs
+      wr
     ];
   };
 
