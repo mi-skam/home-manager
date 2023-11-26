@@ -10,9 +10,12 @@ Requirements:
 
 ```
 git clone https://github.com/mi-skam/home-manager.git $HOME/.config/home-manager
-home-manager switch -b backup --flake ~/.config/home-manager#"plumps@linux"
-# or
-home-manager switch -b backup --flake ~/.config/home-manager#"plumps@macos"
+
+# match to release
+## linux
+nix run home-manager/release-23.05 -- switch -b backup --flake ~/.config/home-manager#"plumps@linux"
+## or macos
+nix run home-manager/release-23.05 -- switch -b backup --flake ~/.config/home-manager#"plumps@macos"
 ```
 
 ### edit
