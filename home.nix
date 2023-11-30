@@ -76,6 +76,7 @@ in {
       nixfmt
       bat
       exa
+      tailscale
       # custom scripts
       hm
       openPRs

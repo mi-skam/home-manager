@@ -31,11 +31,8 @@ lineNumber = true
 autocorrect = 1
 
 [alias]
-c = commit
-ca = commit --amend
-cm = commit -m
-cam = commit -am
-amend = commit --amend --reuse-message=HEAD
+cm = commit -am
+amend = commit -a --amend --reuse-message=HEAD
 br = branch
 co = checkout
 contrib = shortlog --summary --numbered
