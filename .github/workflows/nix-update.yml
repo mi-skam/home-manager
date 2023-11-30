@@ -3,7 +3,7 @@ name: Continous Nix Flake Update
 on:
   schedule:
     # Runs at 00:00 UTC every Sunday
-    - cron: '0 0 * * 0'
+    - cron: "0 0 * * 0"
   workflow_dispatch:
 
 jobs:
@@ -11,23 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - name: Set up Nix
-      uses: cachix/install-nix-action@v22
-      with:
-        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Nix
+        uses: cachix/install-nix-action@v22
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Update Nix Flakes
-      run: nix flake update
+      - name: Update Nix Flakes
+        run: nix flake update
 
-    - name: Commit and Push Changes
-      run: |
-        git config --global user.name 'mi-skam'
-        git config --global user.email '40042054+mi-skam@users.noreply.github.com'
-        git add -A
-        git commit -am "Update Nix Flakes"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'mi-skam'
+          git config --global user.email '40042054+mi-skam@users.noreply.github.com'
+          git add -A
+          # Check if there are any changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit. Exiting..."
+            exit 0
+          else
+            git commit -am "Update Nix Flakes"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
