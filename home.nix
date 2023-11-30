@@ -60,6 +60,7 @@ in {
     };
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
+      act
       libwebp
       bashInteractive
       universal-ctags
