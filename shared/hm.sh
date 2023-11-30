@@ -30,6 +30,9 @@ _handle_fetch() {
     echo "Failed to change to directory: $dir"
     return 1
   }
+  # moves local changes temporarily
+  git stash push
+
   git pull || {
     echo "Failed to execute git pull"
     return 1
@@ -38,6 +41,9 @@ _handle_fetch() {
     echo "Failed to execute nix flake"
     return 1
   }
+  # re-apply the patch 
+  git stash pop
+
   popd &>/dev/null
 }
 
