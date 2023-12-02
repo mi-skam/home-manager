@@ -61,6 +61,7 @@ in {
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
       act
+      helix
       libwebp
       bashInteractive
       universal-ctags
