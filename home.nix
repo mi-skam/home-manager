@@ -82,6 +82,7 @@ in {
       hm
       openPRs
       wr
+      google-cloud-sdk
     ];
   };
 
