@@ -7,18 +7,19 @@ with pkgs;
 let
   currentDir = ./.;
 
-  writeCommand = name: stdenv.mkDerivation {
-    inherit name;
-    src = currentDir;
-    phases = [ "installPhase" ];
-    installPhase = ''
-      mkdir -p $out/bin
-      cp ${./shared/${name}.sh} $out/bin/${name}
-      chmod +x $out/bin/${name} 
-    '';
-  };
+  writeCommand = name:
+    stdenv.mkDerivation {
+      inherit name;
+      src = currentDir;
+      phases = [ "installPhase" ];
+      installPhase = ''
+        mkdir -p $out/bin
+        cp ${./shared/${name}.sh} $out/bin/${name}
+        chmod +x $out/bin/${name} 
+      '';
+    };
 
-  hm = writeCommand "hm"; 
+  hm = writeCommand "hm";
   openPRs = writeCommand "open-prs";
   wr = writeCommand "wr";
 
@@ -26,17 +27,16 @@ let
   bashEnv = readFile ./shared/bash-environment.sh;
   npmrc = ./shared/npmrc;
   gitconfig = "${currentDir}/shared/gitconfig";
-  tmux-super-fingers = pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-super-fingers";
-      version = "unstable-2023-11-09";
-      src = pkgs.fetchFromGitHub {
-        owner = "artemave";
-        repo = "tmux_super_fingers";
-        rev = "2c12044984124e74e21a5a87d00f844083e4bdf7";
-        sha256 = "sha256-cPZCV8xk9QpU49/7H8iGhQYK6JwWjviL29eWabuqruc=";
-      };
+  tmux-super-fingers = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "tmux-super-fingers";
+    version = "unstable-2023-11-09";
+    src = pkgs.fetchFromGitHub {
+      owner = "artemave";
+      repo = "tmux_super_fingers";
+      rev = "2c12044984124e74e21a5a87d00f844083e4bdf7";
+      sha256 = "sha256-cPZCV8xk9QpU49/7H8iGhQYK6JwWjviL29eWabuqruc=";
     };
+  };
 
 in {
   home = {
@@ -54,14 +54,13 @@ in {
       "t" = "tree";
       "tree" = "${lib.getExe pkgs.lsd} --tree";
       "lg" = "lazygit";
-      "e"  = "nvim";
+      "e" = "nvim";
       "cd" = "z";
       "rf" = "rm -rf";
     };
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
       act
-      helix
       libwebp
       bashInteractive
       universal-ctags
@@ -77,7 +76,7 @@ in {
       mtr
       nixfmt
       bat
-      exa
+      eza
       tailscale
       # custom scripts
       hm
@@ -128,6 +127,19 @@ in {
       };
     };
 
+    helix = {
+      enable = true;
+      settings = {
+        keys.normal = {
+          space.space = "file_picker";
+          s = "move_char_left";
+          n = "move_visual_line_down";
+          r = "move_visual_line_up";
+          t = "move_char_right";
+        };
+      };
+    };
+
     home-manager.enable = true;
 
     lazygit.enable = true;
@@ -143,13 +155,13 @@ in {
         {
           plugin = telescope-nvim;
           config = ''
-            let mapleader = ","
+            let mapleader = " "
 
             " Find files using Telescope command-line sugar.
-            nnoremap <leader>ff <cmd>Telescope find_files<cr>
-            nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-            nnoremap <leader>fb <cmd>Telescope buffers<cr>
-            nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+            nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+            nnoremap <leader>g <cmd>Telescope live_grep<cr>
+            nnoremap <leader>b <cmd>Telescope buffers<cr>
+            nnoremap <leader>h <cmd>Telescope help_tags<cr>
           '';
         }
         telescope-nvim
@@ -159,19 +171,15 @@ in {
         {
           plugin = lazygit-nvim;
           config = ''
-            let mapleader = ","
+            let mapleader = " "
 
             nnoremap <leader>lg <cmd>LazyGit<cr>
           '';
         }
       ];
       extraConfig = ''
-        let mapleader = ","
+        let mapleader = " "
         set shell=$HOME/.nix-profile/bin/bash
-
-        " reload vimconfig
-        nnoremap <leader>rr :source $MYVIMRC<CR>
-
 
         set number
         set relativenumber
@@ -227,7 +235,7 @@ in {
         bind-key -n M-Down select-pane -D
         bind-key -n M-Up select-pane -U
         bind-key -n M-Right select-pane -R
-        
+
         bind-key | split-window -h
         bind-key - split-window -v
 
@@ -240,12 +248,10 @@ in {
     zoxide.enable = true;
   };
 
-  services = { 
-    syncthing = { 
+  services = {
+    syncthing = {
       enable = true;
-      extraOptions = [
-        "--gui-address=127.0.0.1:8387"
-      ];
-    }; 
+      extraOptions = [ "--gui-address=127.0.0.1:8387" ];
+    };
   };
 }
