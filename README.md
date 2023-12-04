@@ -1,3 +1,5 @@
+[![Continous Nix Flake Update](https://github.com/mi-skam/home-manager/actions/workflows/nix-update.yml/badge.svg)](https://github.com/mi-skam/home-manager/actions/workflows/nix-update.yml)
+
 We use a central command - `hm` - to manage all maintenance tasks.
 
 ## Installation
