@@ -1,11 +1,8 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
 
   config = {
-    home.username = "plumps";
-    home.homeDirectory = "/home/plumps";
-    home.file = {
-      ".config/lazygit/config.yml".source = ./lazygit.yml;
-    };
+    home.homeDirectory = lib.mkForce "/home/plumps";
+    home.file = { ".config/lazygit/config.yml".source = ./lazygit.yml; };
 
     programs.neovim.extraConfig = ''
       " Use win32yank as clipboard provider
@@ -24,6 +21,5 @@
         \ }
     '';
 
-    
   };
 }

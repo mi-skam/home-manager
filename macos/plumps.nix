@@ -1,7 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
 
-  config = {
-    home.username = "plumps";
-    home.homeDirectory = "/Users/plumps";
-  };
+  config = { home.homeDirectory = lib.mkForce "/Users/plumps"; };
 }

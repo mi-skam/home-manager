@@ -40,24 +40,6 @@ let
 
 in {
   home = {
-    stateVersion = "23.05";
-    shellAliases = {
-      "pn" = "pnpm";
-      "b" = "bun";
-      "bx" = "bunx";
-      "g" = "git";
-      "..." = "cd ../..";
-      ".." = "cd ..";
-      "l" = "ls";
-      "ll" = "ls -lah";
-      "ls" = lib.getExe pkgs.lsd;
-      "t" = "tree";
-      "tree" = "${lib.getExe pkgs.lsd} --tree";
-      "lg" = "lazygit";
-      "e" = "nvim";
-      "cd" = "z";
-      "rf" = "rm -rf";
-    };
     file = { ".npmrc".source = npmrc; };
     packages = with pkgs; [
       act
@@ -84,6 +66,26 @@ in {
       wr
       google-cloud-sdk
     ];
+    stateVersion = "23.05";
+    shellAliases = {
+      "pn" = "pnpm";
+      "b" = "bun";
+      "bx" = "bunx";
+      "g" = "git";
+      "..." = "cd ../..";
+      ".." = "cd ..";
+      "l" = "ls";
+      "ll" = "ls -lah";
+      "ls" = lib.getExe pkgs.lsd;
+      "t" = "tree";
+      "tree" = "${lib.getExe pkgs.lsd} --tree";
+      "lg" = "lazygit";
+      "e" = "nvim";
+      "cd" = "z";
+      "rf" = "rm -rf";
+    };
+    username = "plumps";
+    homeDirectory = "/dev/null";
   };
 
   programs = {
