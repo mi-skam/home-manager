@@ -12,22 +12,24 @@
 
   outputs = { nixpkgs, home-manager, ... }@inputs:
     let
-      system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-
+      # XXX: always selects aarch64-darwin
+      #system = "aarch64-darwin";
+      #pkgs = nixpkgs.legacyPackages.${system};
       mkHomeConfig = machineModule: system:
         home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = nixpkgs.legacyPackages.${system};
+
           modules = [ ./home.nix machineModule ];
 
           extraSpecialArgs = { inherit inputs system; };
         };
     in {
       # this output is only needed for the `home-manager news` command.
-      homeConfigurations."plumps" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ ./home.nix ];
-      };
+      # XXX: always selects aarch64-darwin
+      #homeConfigurations."plumps" = home-manager.lib.homeManagerConfiguration {
+      #  inherit pkgs;
+      #  modules = [ ./home.nix ];
+      #};
       homeConfigurations."plumps@linux" =
         mkHomeConfig ./linux/plumps.nix "x86_64-linux";
       homeConfigurations."plumps@linux-wsl" =
