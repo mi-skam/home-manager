@@ -132,6 +132,8 @@ in {
         init.defaultBranch = "main";
       };
     };
+    
+    git-credential-oauth.enable = true;
 
     helix = {
       enable = true;
