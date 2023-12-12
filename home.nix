@@ -50,7 +50,7 @@ in {
       htop
       curl
       wget
-      nodejs_18
+      nodejs_20
       tree
       ripgrep
       fd
