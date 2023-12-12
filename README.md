@@ -8,16 +8,20 @@ Clone this repository to `$HOME/.config/home-manager` and use home-manager to sw
 
 Requirements:
 - nix
+- flakes enabled
 - home-manager
 - git
 - user: plumps
 
 ```
+nix shell nixpkgs#git
 git clone https://github.com/mi-skam/home-manager.git $HOME/.config/home-manager
 
 # match to release
 ## linux
 nix run home-manager/release-23.05 -- switch -b backup --flake ~/.config/home-manager#"plumps@linux"
+## linux-wsl
+nix run home-manager/release-23.05 -- switch -b backup --flake ~/.config/home-manager#"plumps@linux-wsl"
 ## or macos
 nix run home-manager/release-23.05 -- switch -b backup --flake ~/.config/home-manager#"plumps@macos"
 ```
