@@ -9,6 +9,8 @@ Clone this repository to `$HOME/.config/home-manager` and use home-manager to sw
 Requirements:
 - nix
 - home-manager
+- git
+- user: plumps
 
 ```
 git clone https://github.com/mi-skam/home-manager.git $HOME/.config/home-manager
