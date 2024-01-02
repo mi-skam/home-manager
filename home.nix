@@ -68,6 +68,7 @@ in {
     ];
     stateVersion = "23.05";
     shellAliases = {
+      "pod" = "podman";
       "pn" = "pnpm";
       "b" = "bun";
       "bx" = "bunx";
