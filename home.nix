@@ -25,8 +25,8 @@ let
 
   bashHelper = readFile ./shared/bash-helper.sh;
   bashEnv = readFile ./shared/bash-environment.sh;
-  npmrc = ./shared/npmrc;
-  gitconfig = "${currentDir}/shared/gitconfig";
+  # npmrc = ./shared/npmrc;
+  
   tmux-super-fingers = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-super-fingers";
     version = "unstable-2023-11-09";
@@ -40,7 +40,11 @@ let
 
 in {
   home = {
-    file = { ".npmrc".source = npmrc; };
+    file = { 
+      ".npmrc".source = ./shared/npmrc;
+      ".config/git/.gitconfig-github-mi-skam".source = ./shared/gitconfig-github-mi-skam;
+      ".config/git/.gitconfig-gitlab-nobj".source = ./shared/gitconfig-gitlab-nobj;
+    };
     packages = with pkgs; [
       act
       libwebp
@@ -123,7 +127,7 @@ in {
     git = {
       enable = true;
       diff-so-fancy.enable = true;
-      includes = [{ path = gitconfig; }];
+      includes = [{ path = ./shared/gitconfig; }];
       lfs.enable = true;
       userName = "mi-skam";
       userEmail = "codes@miskam.xyz";
@@ -215,7 +219,7 @@ in {
       mouse = true;
       newSession = true;
       plugins = with pkgs; [
-        tmuxPlugins.cpu
+          tmuxPlugins.cpu
         tmuxPlugins.better-mouse-mode
         {
           plugin = tmuxPlugins.resurrect;

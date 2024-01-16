@@ -1,66 +1,19 @@
-[user]
-name = mi-skam
-email = maksim@miskam.xyz
+## github (mi-skam)
+# https
+[includeIf "hasconfig:remote.*.url:https://github.com/mi-skam/**"]
+path = ~/.config/git/.gitconfig-github-mi-skam
+# git
+[includeIf "hasconfig:remote.*.url:git@github.com:mi-skam/**"]
+path = ~/.config/git/.gitconfig-github-mi-skam
 
-[github]
-user = mi-skam
+## github (new-objects)
+# https
+[includeIf "hasconfig:remote.*.url:https://github.com/new-objects/**"]
+path = ~/.config/git/.gitconfig-github-mi-skam
+# git
+[includeIf "hasconfig:remote.*.url:git@github.com:new-objects/**"]
+path = ~/.config/git/.gitconfig-github-mi-skam
 
-[core]
-excludefile = ~/.config/git/ignore
-editor = vim
-autocrlf = input
-excludesfile = /Users/plumps/.gitignore_global
-
-[pull]
-rebase = true
-
-[init]
-defaultBranch = master
-
-[push]
-autoSetupRemote = true
-followTags = true
-
-[fetch]
-prune = true
-
-[grep]
-lineNumber = true
-
-[help]
-autocorrect = 1
-
-[alias]
-cm = commit -am
-amend = commit -a --amend --reuse-message=HEAD
-br = branch
-co = checkout
-contrib = shortlog --summary --numbered
-cr = clone --recurive
-d = diff
-dc = diff --cached
-df = diff --word-diff
-g = grep --break --heading --line-number
-l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-ld = "!sh -c \"git log --since '${1:-1} days ago' --oneline --author $(git config user.email)\" -"
-lg = log -p
-ll = log --pretty=oneline --graph --abbrev-commit
-lm = log --pretty=format:'* %s (%h)'
-patch = !git --no-pager diff --no-color
-p = push
-pf = push --force
-pr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
-show-ignored = "! git clean -ndX | perl -pe 's/Would remove/Ignored:/'"
-st = status
-stl = ls-files -m -o --exclude-standard
-sts = status -sb
-unstage = reset --hard HEAD
-
-[difftool "sourcetree"]
-cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-path =
-[mergetool "sourcetree"]
-cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-trustExitCode = true
-[commit]
-template = /Users/plumps/.stCommitMsg
+## gitlab (new-objects)
+[includeIf "hasconfig:remote.*.url:https://gitlab.com/new-objects/**"]
+path = ~/.config/git/.gitconfig-gitlab-nobj
