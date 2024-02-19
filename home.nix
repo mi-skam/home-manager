@@ -25,7 +25,8 @@ let
 
   bashHelper = readFile ./shared/bash-helper.sh;
   bashEnv = readFile ./shared/bash-environment.sh;
-  # npmrc = ./shared/npmrc;
+  bashDarwin = readFile ./shared/bash-darwin.sh;
+
   
   tmux-super-fingers = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-super-fingers";
@@ -41,9 +42,9 @@ let
 in {
   home = {
     file = { 
-      ".npmrc".source = ./shared/npmrc;
       ".config/git/.gitconfig-github-mi-skam".source = ./shared/gitconfig-github-mi-skam;
       ".config/git/.gitconfig-gitlab-nobj".source = ./shared/gitconfig-gitlab-nobj;
+      ".config/ytcc/ytcc.conf".source = ./shared/ytcc-config;
     };
     packages = with pkgs; [
       act
@@ -54,6 +55,8 @@ in {
       htop
       curl
       wget
+      mpv
+      ytcc
       nodejs_20
       tree
       ripgrep
@@ -72,8 +75,6 @@ in {
     ];
     stateVersion = "23.05";
     shellAliases = {
-      "pod" = "podman";
-      "pn" = "pnpm";
       "b" = "bun";
       "bx" = "bunx";
       "g" = "git";
@@ -97,7 +98,7 @@ in {
     bash = {
       enable = true;
       enableCompletion = true;
-      initExtra = lib.strings.concatLines [ bashEnv bashHelper ];
+      initExtra = lib.strings.concatLines (lib.optionals stdenv.isDarwin [ bashDarwin] ++ [ bashEnv bashHelper ]);
     };
 
     direnv = {

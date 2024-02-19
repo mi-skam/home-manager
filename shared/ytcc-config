@@ -1,0 +1,22 @@
+[ytcc]
+download_dir = ~/Downloads
+download_subdirs = on
+order_by = publish_date:desc, playlists:asc
+
+[theme]
+prompt_download_audio = 2
+prompt_download_video = 4
+prompt_play_audio = 2
+prompt_play_video = 4
+prompt_mark_watched = 1
+table_alternate_background = 0
+plain_label_text = 244
+
+[tui]
+alphabet = uiaenrtd
+default_action = play_video
+
+[youtube_dl]
+merge_output_format = mp4
+subtitles = en,de
+thumbnail = on
