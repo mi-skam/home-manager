@@ -19,15 +19,10 @@ let
       '';
     };
 
-  hm = writeCommand "hm";
-  openPRs = writeCommand "open-prs";
-  wr = writeCommand "wr";
-
   bashHelper = readFile ./shared/bash-helper.sh;
   bashEnv = readFile ./shared/bash-environment.sh;
   bashDarwin = readFile ./shared/bash-darwin.sh;
 
-  
   tmux-super-fingers = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-super-fingers";
     version = "unstable-2023-11-09";
@@ -41,10 +36,13 @@ let
 
 in {
   home = {
-    file = { 
-      ".config/git/.gitconfig-github-mi-skam".source = ./shared/gitconfig-github-mi-skam;
-      ".config/git/.gitconfig-gitlab-nobj".source = ./shared/gitconfig-gitlab-nobj;
+    file = {
+      ".config/git/.gitconfig-github-mi-skam".source =
+        ./shared/gitconfig-github-mi-skam;
+      ".config/git/.gitconfig-gitlab-nobj".source =
+        ./shared/gitconfig-gitlab-nobj;
       ".config/ytcc/ytcc.conf".source = ./shared/ytcc-config;
+      ".emacs.d/init.el".source = ./shared/emacs-config.el;
     };
     packages = with pkgs; [
       act
@@ -68,9 +66,10 @@ in {
       eza
       tailscale
       # custom scripts
-      hm
-      openPRs
-      wr
+      (writeCommand "hm")
+      (writeCommand "wr")
+      (writeCommand "yt-play")
+      (writeCommand "open-prs")
       google-cloud-sdk
     ];
     stateVersion = "23.05";
@@ -98,13 +97,17 @@ in {
     bash = {
       enable = true;
       enableCompletion = true;
-      initExtra = lib.strings.concatLines (lib.optionals stdenv.isDarwin [ bashDarwin] ++ [ bashEnv bashHelper ]);
+      initExtra = lib.strings.concatLines
+        (lib.optionals stdenv.isDarwin [ bashDarwin ]
+          ++ [ bashEnv bashHelper ]);
     };
 
     direnv = {
       enable = true;
       nix-direnv.enable = true;
     };
+
+    emacs = { enable = true; };
 
     fzf = {
       enable = true;
@@ -138,7 +141,7 @@ in {
         init.defaultBranch = "main";
       };
     };
-    
+
     git-credential-oauth.enable = true;
 
     helix = {
@@ -220,7 +223,7 @@ in {
       mouse = true;
       newSession = true;
       plugins = with pkgs; [
-          tmuxPlugins.cpu
+        tmuxPlugins.cpu
         tmuxPlugins.better-mouse-mode
         {
           plugin = tmuxPlugins.resurrect;
