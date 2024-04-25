@@ -59,9 +59,12 @@ in {
       tree
       ripgrep
       fd
+      pigz
+      pbzip2
       cmus
       mtr
       nixfmt
+      nil
       bat
       eza
       tailscale
@@ -167,45 +170,56 @@ in {
       vimAlias = true;
       viAlias = true;
       vimdiffAlias = true;
-      plugins = with pkgs.vimPlugins; [
-        vim-nix
-        {
-          plugin = telescope-nvim;
-          config = ''
-            let mapleader = " "
+      #plugins = with pkgs.vimPlugins; [
+      #  vim-nix
+      #  {
+      #    plugin = telescope-nvim;
+      #    config = ''
+      #      let mapleader = " "
 
-            " Find files using Telescope command-line sugar.
-            nnoremap <leader><leader> <cmd>Telescope find_files<cr>
-            nnoremap <leader>g <cmd>Telescope live_grep<cr>
-            nnoremap <leader>b <cmd>Telescope buffers<cr>
-            nnoremap <leader>h <cmd>Telescope help_tags<cr>
-          '';
-        }
-        telescope-nvim
-        plenary-nvim
-        nvim-treesitter
-        terminus
-        {
-          plugin = lazygit-nvim;
-          config = ''
-            let mapleader = " "
+      #      " Find files using Telescope command-line sugar.
+      #      nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+      #      nnoremap <leader>g <cmd>Telescope live_grep<cr>
+      #      nnoremap <leader>b <cmd>Telescope buffers<cr>
+      #      nnoremap <leader>h <cmd>Telescope help_tags<cr>
+      #    '';
+      #  }
+      #  telescope-nvim
+      #  plenary-nvim
+      #  nvim-treesitter
+      #  terminus
+      #  {
+      #    plugin = lazygit-nvim;
+      #    config = ''
+      #      let mapleader = " "
 
-            nnoremap <leader>lg <cmd>LazyGit<cr>
-          '';
-        }
-      ];
-      extraConfig = ''
-        let mapleader = " "
-        set shell=$HOME/.nix-profile/bin/bash
+      #      nnoremap <leader>lg <cmd>LazyGit<cr>
+      #    '';
+      #  }
+      #];
+      #extraConfig = ''
+      #  let mapleader = " "
+      #  set shell=$HOME/.nix-profile/bin/bash
 
-        set number
-        set relativenumber
+      #  set number
+      #  set relativenumber
 
-        " map shortcuts to hm
-        nnoremap <leader>hb :!hm<space>build<cr>
-        nnoremap <leader>hu :!hm<space>update<cr>
-        nnoremap <leader>hf :!hm<space>fetch<cr>
-      '';
+      #  " map shortcuts to hm
+      #  nnoremap <leader>hb :!hm<space>build<cr>
+      #  nnoremap <leader>hu :!hm<space>update<cr>
+      #  nnoremap <leader>hf :!hm<space>fetch<cr>
+
+      #  " Remap navigation keys
+      #  nnoremap s h
+      #  nnoremap n j
+      #  nnoremap r k
+      #  nnoremap t l
+
+      #  vnoremap s h
+      #  vnoremap n j
+      #  vnoremap r k
+      #  vnoremap t l
+      #'';
       extraPackages = with pkgs; [ ripgrep fd ];
     };
 
