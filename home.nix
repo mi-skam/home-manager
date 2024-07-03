@@ -36,6 +36,9 @@ let
 
 in {
   home = {
+    sessionVariables = {
+      PATH = "/opt/homebrew/bin:\${PATH}";  
+    };
     file = {
       ".config/git/.gitconfig-github-mi-skam".source =
         ./shared/gitconfig-github-mi-skam;
@@ -149,14 +152,16 @@ in {
 
     helix = {
       enable = true;
+      extraPackages = [
+        pkgs.nodePackages.typescript-language-server
+        pkgs.nodePackages.vscode-css-languageserver-bin
+        pkgs.nodePackages.vscode-json-languageserver-bin
+        pkgs.nodePackages.vscode-html-languageserver-bin
+      ];
       settings = {
-        keys.normal = {
-          space.space = "file_picker";
-          s = "move_char_left";
-          n = "move_visual_line_down";
-          r = "move_visual_line_up";
-          t = "move_char_right";
-        };
+        keys.normal = { space.space = "file_picker"; };
+        theme = "gruvbox";
+        editor.cursor-shape = { insert = "bar"; };
       };
     };
 
